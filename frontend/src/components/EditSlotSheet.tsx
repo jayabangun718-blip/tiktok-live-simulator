@@ -199,7 +199,7 @@ export function EditSlotSheet({
                           <Image
                             source={{ uri: bgPhotoUri }}
                             style={styles.photo}
-                            blurRadius={6}
+                            blurRadius={2.5}
                           />
                           <View style={styles.rectDim} />
                         </>

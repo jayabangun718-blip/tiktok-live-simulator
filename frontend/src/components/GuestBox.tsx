@@ -39,14 +39,14 @@ export function GuestBox({ guest, onPress, index }: Props) {
       testID={`guest-box-${guest.id}`}
       android_ripple={{ color: "rgba(255,255,255,0.06)" }}
     >
-      {/* Large background: soft-blurred bg photo or dim gradient */}
+      {/* Large background: very light blur so body shape is still visible */}
       {guest.bgPhotoUri ? (
         <>
           <Image
             source={{ uri: guest.bgPhotoUri }}
             style={StyleSheet.absoluteFill}
             contentFit="cover"
-            blurRadius={6}
+            blurRadius={2.5}
           />
           <View style={styles.dimOverlay} />
         </>
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
   },
   dimOverlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0,0,0,0.2)",
+    backgroundColor: "rgba(0,0,0,0.1)",
   },
   avatarCircle: {
     position: "absolute",
