@@ -39,16 +39,35 @@ export function GuestBox({ guest, onPress, index }: Props) {
       testID={`guest-box-${guest.id}`}
       android_ripple={{ color: "rgba(255,255,255,0.06)" }}
     >
-      {guest.photoUri ? (
-        <Image source={{ uri: guest.photoUri }} style={StyleSheet.absoluteFill} contentFit="cover" />
+      {/* Large background: blurred bg photo or dim gradient */}
+      {guest.bgPhotoUri ? (
+        <>
+          <Image
+            source={{ uri: guest.bgPhotoUri }}
+            style={StyleSheet.absoluteFill}
+            contentFit="cover"
+            blurRadius={18}
+          />
+          <View style={styles.dimOverlay} />
+        </>
       ) : (
         <LinearGradient colors={gradient} style={StyleSheet.absoluteFill}>
           <View style={styles.dimOverlay} />
-          <View style={styles.avatarCircle}>
-            <Text style={styles.avatarInitial}>{initial}</Text>
-          </View>
         </LinearGradient>
       )}
+
+      {/* Small circular avatar in the center */}
+      <View style={styles.avatarCircle}>
+        {guest.photoUri ? (
+          <Image
+            source={{ uri: guest.photoUri }}
+            style={StyleSheet.absoluteFill}
+            contentFit="cover"
+          />
+        ) : (
+          <Text style={styles.avatarInitial}>{initial}</Text>
+        )}
+      </View>
 
       {/* Viewer count top-left */}
       <View style={styles.viewerRow}>
@@ -108,6 +127,7 @@ const styles = StyleSheet.create({
     borderColor: "rgba(255,255,255,0.25)",
     alignItems: "center",
     justifyContent: "center",
+    overflow: "hidden",
   },
   avatarInitial: {
     color: "#fff",

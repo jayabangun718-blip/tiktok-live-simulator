@@ -56,6 +56,7 @@ export default function LiveRoomScreen() {
       updateGuest(editing.id, {
         name: payload.name,
         photoUri: payload.photoUri,
+        bgPhotoUri: payload.bgPhotoUri ?? null,
         viewers: payload.viewers ?? 0,
       });
     }
@@ -335,9 +336,11 @@ export default function LiveRoomScreen() {
         onSave={handleSave}
         title="Ubah Peserta"
         showViewers
+        showBgPhoto
         initial={{
           name: editingGuest?.name ?? "",
           photoUri: editingGuest?.photoUri ?? null,
+          bgPhotoUri: editingGuest?.bgPhotoUri ?? null,
           viewers: editingGuest?.viewers ?? 0,
         }}
       />

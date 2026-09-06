@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useCallback, useEffect, useState } from "react";
 
-const STORAGE_KEY = "@live_room_slots_v1";
+const STORAGE_KEY = "@live_room_slots_v2";
 
 export type HostSlot = {
   name: string;
@@ -14,7 +14,8 @@ export type GuestSlot = {
   id: string;
   name: string;
   viewers: number;
-  photoUri: string | null;
+  photoUri: string | null; // small circular avatar in the center
+  bgPhotoUri: string | null; // large blurred background image
   muted: boolean;
 };
 
@@ -31,13 +32,13 @@ const DEFAULT_STATE: SlotsState = {
     hearts: "260.9K",
   },
   guests: [
-    { id: "g1", name: "Danton_", viewers: 671, photoUri: null, muted: true },
-    { id: "g2", name: "RAGA_", viewers: 464, photoUri: null, muted: true },
-    { id: "g3", name: "ALL", viewers: 0, photoUri: null, muted: true },
-    { id: "g4", name: "Hunaepi", viewers: 481, photoUri: null, muted: true },
-    { id: "g5", name: "JBS CHA_", viewers: 585, photoUri: null, muted: true },
-    { id: "g6", name: "IsRa Rog_", viewers: 677, photoUri: null, muted: true },
-    { id: "g7", name: "johan_kw1", viewers: 32, photoUri: null, muted: true },
+    { id: "g1", name: "Danton_", viewers: 0, photoUri: null, bgPhotoUri: null, muted: true },
+    { id: "g2", name: "RAGA_", viewers: 0, photoUri: null, bgPhotoUri: null, muted: true },
+    { id: "g3", name: "ALL", viewers: 0, photoUri: null, bgPhotoUri: null, muted: true },
+    { id: "g4", name: "Hunaepi", viewers: 0, photoUri: null, bgPhotoUri: null, muted: true },
+    { id: "g5", name: "JBS CHA_", viewers: 0, photoUri: null, bgPhotoUri: null, muted: true },
+    { id: "g6", name: "IsRa Rog_", viewers: 0, photoUri: null, bgPhotoUri: null, muted: true },
+    { id: "g7", name: "johan_kw1", viewers: 0, photoUri: null, bgPhotoUri: null, muted: true },
   ],
 };
 
