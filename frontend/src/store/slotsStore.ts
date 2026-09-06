@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useCallback, useEffect, useState } from "react";
 
-const STORAGE_KEY = "@live_room_slots_v2";
+const STORAGE_KEY = "@live_room_slots_v3";
 
 export type HostSlot = {
   name: string;
