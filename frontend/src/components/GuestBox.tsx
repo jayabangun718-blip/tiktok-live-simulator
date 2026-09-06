@@ -1,4 +1,5 @@
 import Ionicons from "@react-native-vector-icons/ionicons";
+import MDIcon from "@react-native-vector-icons/material-design-icons";
 import { Image } from "expo-image";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
@@ -70,7 +71,7 @@ export function GuestBox({ guest, onPress }: Props) {
 
       {/* Viewer count top-left */}
       <View style={styles.viewerRow}>
-        <View style={styles.viewerDot} />
+        <MDIcon name="diamond-stone" size={16} color={colors.accentCyan} />
         <Text style={styles.viewerTxt}>{formatViewers(guest.viewers)}</Text>
       </View>
 
@@ -145,11 +146,11 @@ const styles = StyleSheet.create({
   },
   viewerRow: {
     position: "absolute",
-    top: 4,
-    left: 4,
+    top: 5,
+    left: 5,
     flexDirection: "row",
     alignItems: "center",
-    gap: 3,
+    gap: 4,
   },
   viewerDot: {
     width: 8,
@@ -159,10 +160,10 @@ const styles = StyleSheet.create({
   },
   viewerTxt: {
     color: "#fff",
-    fontSize: 11,
-    fontWeight: "700",
-    textShadowColor: "rgba(0,0,0,0.8)",
-    textShadowRadius: 2,
+    fontSize: 14,
+    fontWeight: "800",
+    textShadowColor: "rgba(0,0,0,0.9)",
+    textShadowRadius: 3,
   },
   bottomRow: {
     position: "absolute",
