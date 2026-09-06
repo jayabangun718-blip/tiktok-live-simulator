@@ -376,7 +376,7 @@ const styles = StyleSheet.create({
   gridWrap: {
     flex: 1,
     paddingHorizontal: 6,
-    justifyContent: "center",
+    paddingTop: 12,
   },
   grid: {
     aspectRatio: 1,
