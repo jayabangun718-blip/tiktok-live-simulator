@@ -153,6 +153,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 4,
+    backgroundColor: "rgba(0,0,0,0.55)",
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 12,
   },
   viewerIcon: {
     width: 18,
@@ -172,10 +176,8 @@ const styles = StyleSheet.create({
   },
   viewerTxt: {
     color: "#fff",
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: "800",
-    textShadowColor: "rgba(0,0,0,0.9)",
-    textShadowRadius: 3,
   },
   bottomRow: {
     position: "absolute",
@@ -186,13 +188,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     gap: 4,
+    backgroundColor: "rgba(0,0,0,0.55)",
+    paddingHorizontal: 6,
+    paddingVertical: 3,
+    borderRadius: 10,
   },
   nameTxt: {
     color: "#fff",
     fontSize: 11,
     fontWeight: "700",
     flexShrink: 1,
-    textShadowColor: "rgba(0,0,0,0.9)",
-    textShadowRadius: 2,
   },
 });
