@@ -66,129 +66,6 @@ export default function LiveRoomScreen() {
     <View style={[styles.root, { paddingTop: insets.top }]}>
       <StatusBar style="light" />
 
-      {/* ============ TOP HEADER ============ */}
-      <View style={styles.headerBlock}>
-        {/* Row 1: streamer info */}
-        <View style={styles.row1}>
-          <View style={styles.avatarRing}>
-            <LinearGradient
-              colors={["#5AD3F5", "#2871E9"]}
-              style={styles.avatarInner}
-            />
-          </View>
-          <View style={{ flex: 0, marginLeft: 6 }}>
-            <View style={{ flexDirection: "row", alignItems: "center", gap: 3 }}>
-              <Text style={styles.streamerName}>{state.host.name}</Text>
-              <MDIcon name="flag" size={9} color="#E11D48" />
-            </View>
-            <View style={{ flexDirection: "row", alignItems: "center", gap: 2 }}>
-              <Ionicons name="heart" size={9} color={colors.accentPink} />
-              <Text style={styles.heartCount}>{state.host.hearts}</Text>
-            </View>
-          </View>
-
-          {/* pill w/ heart-in-bubble */}
-          <View style={styles.giftPill}>
-            <View style={styles.giftPillInner}>
-              <Ionicons name="heart" size={10} color="#FF4D8D" />
-            </View>
-          </View>
-
-          {/* stacked mini avatars */}
-          <View style={styles.miniStack}>
-            <View style={[styles.miniAvatar, { backgroundColor: "#F5B451" }]} />
-            <View
-              style={[
-                styles.miniAvatar,
-                { backgroundColor: "#8C8C99", marginLeft: -8 },
-              ]}
-            />
-          </View>
-          <Text style={styles.miniCount}>231</Text>
-
-          <View style={{ flex: 1 }} />
-
-          <MDIcon name="account-outline" size={13} color="#fff" />
-          <Text style={styles.viewerBig}>494</Text>
-          <Pressable hitSlop={8} testID="close-btn" style={{ marginLeft: 8 }}>
-            <Ionicons name="close" size={22} color="#fff" />
-          </Pressable>
-        </View>
-
-        {/* Row 2: category chips */}
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.chipsRow}
-        >
-          <View style={[styles.catChip, { backgroundColor: "rgba(0,0,0,0.35)" }]}>
-            <View style={[styles.catDot, { backgroundColor: "#F5C044" }]} />
-            <Text style={styles.catTxt}>Kehidupan Seh...</Text>
-          </View>
-          <View style={[styles.catChip, { backgroundColor: "rgba(0,0,0,0.35)" }]}>
-            <MDIcon name="diamond-stone" size={10} color="#22D3EE" />
-            <Text style={styles.catTxt}>Liga D3 No. 3+</Text>
-          </View>
-          <View style={[styles.catChip, { backgroundColor: "rgba(0,0,0,0.35)" }]}>
-            <View style={[styles.catDot, { backgroundColor: "#D946EF" }]} />
-            <Text style={styles.catTxt}>Jelajahi</Text>
-            <Ionicons name="chevron-forward" size={10} color="#fff" />
-          </View>
-        </ScrollView>
-
-        {/* Row 3: event tiles */}
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.eventsRow}
-        >
-          <View style={styles.eventTile}>
-            <View style={[styles.eventIcon, { backgroundColor: "#6E3AC5" }]}>
-              <MDIcon name="treasure-chest" size={16} color="#FFD24F" />
-            </View>
-            <Text style={styles.eventTxt}>04:24</Text>
-          </View>
-
-          <View style={styles.eventTile}>
-            <View style={[styles.eventIcon, { backgroundColor: "#E64A6D" }]}>
-              <MDIcon name="gift" size={16} color="#FFD24F" />
-              <View style={styles.eventBadge}>
-                <Text style={styles.eventBadgeTxt}>2</Text>
-              </View>
-            </View>
-            <Text style={styles.eventTxt}>03:10</Text>
-          </View>
-
-          <View style={[styles.eventTile, { minWidth: 74 }]}>
-            <View style={{ flexDirection: "row", alignItems: "center", gap: 2 }}>
-              <MDIcon name="rose" size={16} color="#FF4D8D" />
-              <Text style={styles.eventTxt}>
-                <Text style={{ color: "#fff", fontWeight: "800" }}>359</Text>
-                <Text style={{ color: colors.muted }}>/820</Text>
-              </Text>
-            </View>
-            <View style={styles.progressTrack}>
-              <View style={styles.progressFill} />
-            </View>
-            <Text style={styles.eventSub}>2h00m</Text>
-          </View>
-
-          <View style={[styles.eventTile, { paddingHorizontal: 4 }]}>
-            <Text style={styles.legendTxt}>Legends of</Text>
-            <Text style={styles.legendTxt}>Match</Text>
-          </View>
-
-          <View style={styles.eventTile}>
-            <LinearGradient
-              colors={["#F59E0B", "#EC4899", "#8B5CF6", "#22D3EE"]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-              style={styles.rainbowIcon}
-            />
-          </View>
-        </ScrollView>
-      </View>
-
       {/* ============ GRID: Host + Guests ============ */}
       <View style={styles.gridWrap}>
         <View style={styles.grid}>
@@ -223,98 +100,6 @@ export default function LiveRoomScreen() {
             ))}
           </View>
         </View>
-      </View>
-
-      {/* ============ CHAT / SYSTEM FEED ============ */}
-      <View style={styles.feedBlock} pointerEvents="box-none">
-        <View style={styles.chatMsgRow}>
-          <View style={styles.chatMsgAvatar}>
-            <LinearGradient
-              colors={["#8AB6D6", "#3E5C7A"]}
-              style={StyleSheet.absoluteFill}
-            />
-          </View>
-          <View style={styles.chatMsgPill}>
-            <Text style={styles.chatMsgTxt} numberOfLines={1}>
-              <Text style={{ color: "#7DD3FC", fontWeight: "700" }}>
-                yon tanjung
-              </Text>
-              <Text style={{ color: "#E5E7EB" }}> mengirim Say...</Text>
-            </Text>
-          </View>
-          <MDIcon name="rose" size={16} color="#FF4D8D" style={{ marginLeft: 4 }} />
-          <View style={{ flex: 1 }} />
-          <Ionicons name="heart-outline" size={22} color="#FF4D8D" />
-        </View>
-
-        <View style={styles.chatMsgRow}>
-          <View style={styles.chatMsgAvatar}>
-            <LinearGradient
-              colors={["#F59E0B", "#9A4A0F"]}
-              style={StyleSheet.absoluteFill}
-            />
-          </View>
-          <View style={styles.chatMsgPill}>
-            <Text style={styles.chatMsgTxt} numberOfLines={1}>
-              <Text style={{ color: "#FBBF24", fontWeight: "700" }}>
-                HANNA. K...
-              </Text>
-              <Text style={{ color: "#E5E7EB" }}> mengirim Ma...</Text>
-            </Text>
-          </View>
-          <MDIcon name="rose" size={16} color="#FF4D8D" style={{ marginLeft: 4 }} />
-          <View style={{ flex: 1 }} />
-          <Ionicons name="heart" size={22} color="#FF4D8D" />
-        </View>
-
-        {/* System msg 1 */}
-        <View style={styles.sysRow}>
-          <View style={styles.sysIcon}>
-            <MDIcon name="diamond-stone" size={12} color="#7DD3FC" />
-            <Text style={styles.sysBadgeTxt}>9</Text>
-          </View>
-          <View style={styles.sysIcon}>
-            <Ionicons name="heart" size={11} color="#FF4D8D" />
-            <Text style={styles.sysBadgeTxt}>1</Text>
-          </View>
-          <Text style={styles.sysTxt} numberOfLines={2}>
-            <Text style={{ fontWeight: "700" }}>yon tanjung</Text> menjadi
-            anggota No. 203 yang bergabung dengan tim
-          </Text>
-        </View>
-
-        {/* System msg 2 */}
-        <View style={styles.sysRow}>
-          <View style={[styles.sysIcon, { backgroundColor: "#6E3AC5" }]}>
-            <MDIcon name="treasure-chest" size={12} color="#FFD24F" />
-          </View>
-          <Text style={styles.sysTxt} numberOfLines={2}>
-            <Text style={{ fontWeight: "700" }}>{state.host.name}</Text>{" "}
-            mengirim Kotak Harta Karun dengan{" "}
-            <MDIcon name="circle" size={11} color="#FBBF24" /> x 20
-          </Text>
-          <View style={{ flex: 1 }} />
-          <Ionicons name="heart" size={22} color="#FF4D8D" />
-        </View>
-      </View>
-
-      {/* ============ BOTTOM ACTION BAR ============ */}
-      <View
-        style={[
-          styles.bottomBar,
-          { paddingBottom: Math.max(insets.bottom, 8) },
-        ]}
-      >
-        <View style={styles.chatInput}>
-          <Text style={styles.chatInputTxt}>Berk...</Text>
-        </View>
-
-        <ActionIcon icon="videocam-off-outline" label="Kamera" />
-        <ActionIcon icon="mic-off-outline" label="Mic" />
-        <ActionIcon icon="people-outline" label="Multi-g..." badge="22" />
-        <MawarAction />
-        <GiftAction />
-        <ShareAction label="896" />
       </View>
 
       {/* ============ EDIT SHEET ============ */}
@@ -589,8 +374,9 @@ const styles = StyleSheet.create({
   },
   /* ---------- Grid ---------- */
   gridWrap: {
+    flex: 1,
     paddingHorizontal: 6,
-    marginTop: 2,
+    justifyContent: "center",
   },
   grid: {
     aspectRatio: 1,
