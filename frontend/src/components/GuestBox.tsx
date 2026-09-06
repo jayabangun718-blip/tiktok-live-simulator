@@ -1,6 +1,5 @@
 import Ionicons from "@react-native-vector-icons/ionicons";
 import { Image } from "expo-image";
-import { LinearGradient } from "expo-linear-gradient";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import { colors } from "@/src/theme";
@@ -12,25 +11,29 @@ type Props = {
   index: number;
 };
 
-const GRADIENTS: [string, string][] = [
-  ["#3E2A2A", "#1A1417"],
-  ["#3A2E2E", "#1B1214"],
-  ["#233238", "#0F1719"],
-  ["#2C2A38", "#141220"],
-  ["#332020", "#180F10"],
-  ["#2A2A32", "#12121A"],
-  ["#3A2620", "#1A100E"],
-  ["#282430", "#12101A"],
-];
-
 function formatViewers(n: number): string {
   if (n >= 1000) return `${(n / 1000).toFixed(1)}k`;
   return String(n);
 }
 
-export function GuestBox({ guest, onPress, index }: Props) {
+export function GuestBox({ guest, onPress }: Props) {
   const initial = (guest.name?.trim()?.[0] ?? "?").toUpperCase();
-  const gradient = GRADIENTS[index % GRADIENTS.length];
+  const hasAnyPhoto = !!guest.photoUri || !!guest.bgPhotoUri;
+
+  // Empty state: mimic the "+ Permintaan" tile exactly
+  if (!hasAnyPhoto) {
+    return (
+      <Pressable
+        style={[styles.container, styles.emptyContainer]}
+        onPress={onPress}
+        testID={`guest-box-${guest.id}`}
+        android_ripple={{ color: "rgba(255,255,255,0.06)" }}
+      >
+        <Ionicons name="add" size={26} color="rgba(255,255,255,0.6)" />
+        <Text style={styles.emptyTxt}>Permintaan</Text>
+      </Pressable>
+    );
+  }
 
   return (
     <Pressable
@@ -40,7 +43,7 @@ export function GuestBox({ guest, onPress, index }: Props) {
       android_ripple={{ color: "rgba(255,255,255,0.06)" }}
     >
       {/* Large background: very light blur so body shape is still visible */}
-      {guest.bgPhotoUri ? (
+      {guest.bgPhotoUri && (
         <>
           <Image
             source={{ uri: guest.bgPhotoUri }}
@@ -50,10 +53,6 @@ export function GuestBox({ guest, onPress, index }: Props) {
           />
           <View style={styles.dimOverlay} />
         </>
-      ) : (
-        <LinearGradient colors={gradient} style={StyleSheet.absoluteFill}>
-          <View style={styles.dimOverlay} />
-        </LinearGradient>
       )}
 
       {/* Small circular avatar in the center */}
@@ -91,12 +90,12 @@ export function GuestBox({ guest, onPress, index }: Props) {
 export function AddRequestBox({ onPress }: { onPress?: () => void }) {
   return (
     <Pressable
-      style={[styles.container, styles.addContainer]}
+      style={[styles.container, styles.emptyContainer]}
       onPress={onPress}
       testID="add-request-box"
     >
       <Ionicons name="add" size={26} color="rgba(255,255,255,0.6)" />
-      <Text style={styles.addTxt}>Permintaan</Text>
+      <Text style={styles.emptyTxt}>Permintaan</Text>
     </Pressable>
   );
 }
@@ -108,6 +107,16 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     backgroundColor: "#1A1A20",
     position: "relative",
+  },
+  emptyContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 2,
+  },
+  emptyTxt: {
+    color: "rgba(255,255,255,0.7)",
+    fontSize: 11,
+    fontWeight: "600",
   },
   dimOverlay: {
     ...StyleSheet.absoluteFillObject,
@@ -172,16 +181,5 @@ const styles = StyleSheet.create({
     flexShrink: 1,
     textShadowColor: "rgba(0,0,0,0.9)",
     textShadowRadius: 2,
-  },
-  addContainer: {
-    backgroundColor: "#1A1A20",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 2,
-  },
-  addTxt: {
-    color: "rgba(255,255,255,0.7)",
-    fontSize: 11,
-    fontWeight: "600",
   },
 });
