@@ -50,14 +50,6 @@
           "photosPermission": "Pilih foto untuk kotak host & peserta"
         }
       ],
-      [
-        "expo-media-library",
-        {
-          "photosPermission": "Tampilkan foto di galeri mini untuk kotak host & peserta",
-          "savePhotosPermission": "Simpan hasil ke galeri",
-          "isAccessMediaLocationEnabled": false
-        }
-      ],
       "@react-native-vector-icons/ionicons",
       "@react-native-vector-icons/material-design-icons"
     ],
