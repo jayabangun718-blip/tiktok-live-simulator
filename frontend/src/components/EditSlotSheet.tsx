@@ -296,7 +296,7 @@ export function EditSlotSheet({
 const styles = StyleSheet.create({
   backdrop: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.55)",
+    backgroundColor: "transparent",
     justifyContent: "flex-end",
   },
   sheetWrap: { width: "100%" },
@@ -307,7 +307,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 8,
     paddingBottom: 28,
-    maxHeight: "92%",
+    maxHeight: "48%",
+    borderTopWidth: 1,
+    borderColor: colors.border,
   },
   grabber: {
     alignSelf: "center",
