@@ -98,7 +98,7 @@ export default function LiveRoomScreen() {
                   const idx = row * 2 + col;
                   if (idx < state.guests.length) {
                     const g = state.guests[idx];
-                    if (idx === 1) {
+                    if (idx === 0) {
                       return (
                         <View key={g.id} style={styles.guestCellWrap}>
                           <GuestBox
