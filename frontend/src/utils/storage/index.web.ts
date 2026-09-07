@@ -1,21 +1,33 @@
 // Web storage (Metro picks index.ts on native).
+// Uses window.localStorage directly — the AsyncStorage web shim can hang on
+// Expo web (SDK 57), so we avoid it entirely here.
 // Helpers never throw: reads return `fallback`, writes return `false`.
 // Values supported: string | number | boolean | null (JSON-serialized on disk).
 // Usage: import { storage } from "@/src/utils/storage"; await storage.getItem(key, fallback);
-// No Keychain on web — secure* helpers reuse AsyncStorage (no expo-secure-store).
-
-import AsyncStorage from "@react-native-async-storage/async-storage";
+// No Keychain on web — secure* helpers reuse localStorage.
 
 import { AssertNoExtras, StorageBase, StorageItemValue } from "./storage-base";
 
+function getStore(): Storage | null {
+  try {
+    if (typeof window !== "undefined" && window.localStorage) {
+      return window.localStorage;
+    }
+  } catch {
+    // ignore (e.g. SSR or privacy mode)
+  }
+  return null;
+}
+
 export class Storage extends StorageBase {
-  // General KV — backed by AsyncStorage (its built-in web shim uses IndexedDB).
+  // General KV — backed by window.localStorage.
   async getItem<Fallback extends StorageItemValue>(
     key: string,
     fallback: Fallback,
   ): Promise<Fallback | null> {
     try {
-      const raw = await AsyncStorage.getItem(key);
+      const store = getStore();
+      const raw = store ? store.getItem(key) : null;
       return this.retrieve(raw, fallback);
     } catch (e) {
       this.warn("getItem", key, e);
@@ -28,7 +40,9 @@ export class Storage extends StorageBase {
     value: Value,
   ): Promise<boolean> {
     try {
-      await AsyncStorage.setItem(key, JSON.stringify(value));
+      const store = getStore();
+      if (!store) return false;
+      store.setItem(key, JSON.stringify(value));
       return true;
     } catch (e) {
       this.warn("setItem", key, e);
@@ -38,7 +52,9 @@ export class Storage extends StorageBase {
 
   async removeItem(key: string): Promise<boolean> {
     try {
-      await AsyncStorage.removeItem(key);
+      const store = getStore();
+      if (!store) return false;
+      store.removeItem(key);
       return true;
     } catch (e) {
       this.warn("removeItem", key, e);
@@ -46,7 +62,7 @@ export class Storage extends StorageBase {
     }
   }
 
-  // Browsers have no Keychain — secure* helpers fall through to AsyncStorage.
+  // Browsers have no Keychain — secure* helpers fall through to localStorage.
   async secureGet<Fallback extends StorageItemValue>(
     key: string,
     fallback: Fallback,

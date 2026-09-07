@@ -1,5 +1,6 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useCallback, useEffect, useState } from "react";
+
+import { storage } from "@/src/utils/storage";
 
 const STORAGE_KEY = "@live_room_slots_v3";
 
@@ -49,7 +50,7 @@ export function useSlotsStore() {
   useEffect(() => {
     (async () => {
       try {
-        const raw = await AsyncStorage.getItem(STORAGE_KEY);
+        const raw = await storage.getItem(STORAGE_KEY, "");
         if (raw) {
           const parsed = JSON.parse(raw) as SlotsState;
           // Basic sanity: keep default shape if incomplete
@@ -68,7 +69,7 @@ export function useSlotsStore() {
   const persist = useCallback(async (next: SlotsState) => {
     setState(next);
     try {
-      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+      await storage.setItem(STORAGE_KEY, JSON.stringify(next));
     } catch {
       // ignore
     }
