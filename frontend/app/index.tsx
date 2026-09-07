@@ -456,8 +456,8 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     alignItems: "flex-end",
     justifyContent: "flex-start",
-    paddingTop: 4,
-    paddingRight: 4,
+    paddingTop: 0,
+    paddingRight: 0,
   },
   lionImg: {
     width: "52%",
