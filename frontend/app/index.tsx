@@ -18,6 +18,7 @@ import { EditSlotSheet, type EditPayload } from "@/src/components/EditSlotSheet"
 import { AddRequestBox, GuestBox } from "@/src/components/GuestBox";
 import { HostBox } from "@/src/components/HostBox";
 import { useSlotsStore } from "@/src/store/slotsStore";
+import { storage } from "@/src/utils/storage";
 import { colors } from "@/src/theme";
 
 type EditTarget =
@@ -30,13 +31,23 @@ export default function LiveRoomScreen() {
   const { state, loaded, updateHost, updateGuest } = useSlotsStore();
   const [editing, setEditing] = useState<EditTarget>(null);
   const [showLion, setShowLion] = useState(false);
+  const [lionTargetIdx, setLionTargetIdx] = useState(0);
   const lionTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
+    (async () => {
+      const saved = await storage.getItem("@lion_target_idx", 0);
+      if (typeof saved === "number" && saved >= 0) setLionTargetIdx(saved);
+    })();
     return () => {
       if (lionTimer.current) clearTimeout(lionTimer.current);
     };
   }, []);
+
+  const selectLionTarget = (i: number) => {
+    setLionTargetIdx(i);
+    storage.setItem("@lion_target_idx", i);
+  };
 
   const triggerLion = () => {
     if (lionTimer.current) clearTimeout(lionTimer.current);
@@ -98,7 +109,7 @@ export default function LiveRoomScreen() {
                   const idx = row * 2 + col;
                   if (idx < state.guests.length) {
                     const g = state.guests[idx];
-                    if (idx === 0) {
+                    if (idx === lionTargetIdx) {
                       return (
                         <View key={g.id} style={styles.guestCellWrap}>
                           <GuestBox
@@ -143,8 +154,36 @@ export default function LiveRoomScreen() {
         </View>
       </View>
 
-      {/* ============ BOTTOM BUTTON ============ */}
+      {/* ============ BOTTOM: SETTINGS + BUTTON ============ */}
       <View style={[styles.bottomBar2, { paddingBottom: insets.bottom + 12 }]}>
+        <View style={styles.settingsRow}>
+          <Text style={styles.settingsLabel}>Kotak singa:</Text>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={styles.chipsScroll}
+            contentContainerStyle={styles.chipsRow2}
+          >
+            {state.guests.map((g, i) => {
+              const active = i === lionTargetIdx;
+              return (
+                <Pressable
+                  key={g.id}
+                  onPress={() => selectLionTarget(i)}
+                  style={[styles.chip, active && styles.chipActive]}
+                  testID={`lion-target-${i}`}
+                >
+                  <Text
+                    style={[styles.chipTxt, active && styles.chipTxtActive]}
+                    numberOfLines={1}
+                  >
+                    {g.name?.trim() || `Kotak ${i + 1}`}
+                  </Text>
+                </Pressable>
+              );
+            })}
+          </ScrollView>
+        </View>
         <Pressable
           style={({ pressed }) => [
             styles.lionBtn,
@@ -485,6 +524,49 @@ const styles = StyleSheet.create({
     color: colors.onBrandPrimary,
     fontSize: 15,
     fontWeight: "700",
+  },
+  settingsRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    marginBottom: 10,
+  },
+  settingsLabel: {
+    color: colors.muted,
+    fontSize: 12,
+    fontWeight: "700",
+  },
+  chipsScroll: {
+    flex: 1,
+  },
+  chipsRow2: {
+    gap: 6,
+    paddingRight: 8,
+    alignItems: "center",
+  },
+  chip: {
+    minWidth: 40,
+    height: 34,
+    borderRadius: 17,
+    backgroundColor: colors.surfaceTertiary,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 12,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  chipActive: {
+    backgroundColor: colors.brandPrimary,
+    borderColor: colors.brandPrimary,
+  },
+  chipTxt: {
+    color: colors.onSurface,
+    fontSize: 13,
+    fontWeight: "700",
+    maxWidth: 90,
+  },
+  chipTxtActive: {
+    color: colors.onBrandPrimary,
   },
   /* ---------- Feed ---------- */
   feedBlock: {
