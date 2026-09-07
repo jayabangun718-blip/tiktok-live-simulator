@@ -454,14 +454,14 @@ const styles = StyleSheet.create({
   },
   lionOverlay: {
     ...StyleSheet.absoluteFillObject,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "rgba(0,0,0,0.35)",
-    borderRadius: 4,
+    alignItems: "flex-end",
+    justifyContent: "flex-start",
+    paddingTop: 4,
+    paddingRight: 4,
   },
   lionImg: {
-    width: "92%",
-    height: "92%",
+    width: "52%",
+    height: "52%",
   },
   bottomBar2: {
     paddingHorizontal: 16,
