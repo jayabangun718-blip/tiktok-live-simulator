@@ -1,8 +1,9 @@
 import Ionicons from "@react-native-vector-icons/ionicons";
 import MDIcon from "@react-native-vector-icons/material-design-icons";
+import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { StatusBar } from "expo-status-bar";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
   Pressable,
@@ -28,6 +29,20 @@ export default function LiveRoomScreen() {
   const insets = useSafeAreaInsets();
   const { state, loaded, updateHost, updateGuest } = useSlotsStore();
   const [editing, setEditing] = useState<EditTarget>(null);
+  const [showLion, setShowLion] = useState(false);
+  const lionTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (lionTimer.current) clearTimeout(lionTimer.current);
+    };
+  }, []);
+
+  const triggerLion = () => {
+    if (lionTimer.current) clearTimeout(lionTimer.current);
+    setShowLion(true);
+    lionTimer.current = setTimeout(() => setShowLion(false), 2000);
+  };
 
   if (!loaded) {
     return (
@@ -83,6 +98,32 @@ export default function LiveRoomScreen() {
                   const idx = row * 2 + col;
                   if (idx < state.guests.length) {
                     const g = state.guests[idx];
+                    if (idx === 1) {
+                      return (
+                        <View key={g.id} style={styles.guestCellWrap}>
+                          <GuestBox
+                            index={idx}
+                            guest={g}
+                            onPress={() =>
+                              setEditing({ type: "guest", id: g.id })
+                            }
+                          />
+                          {showLion ? (
+                            <View
+                              style={styles.lionOverlay}
+                              pointerEvents="none"
+                              testID="lion-flash-overlay"
+                            >
+                              <Image
+                                source={require("../assets/images/lion.png")}
+                                style={styles.lionImg}
+                                contentFit="contain"
+                              />
+                            </View>
+                          ) : null}
+                        </View>
+                      );
+                    }
                     return (
                       <GuestBox
                         key={g.id}
@@ -100,6 +141,21 @@ export default function LiveRoomScreen() {
             ))}
           </View>
         </View>
+      </View>
+
+      {/* ============ BOTTOM BUTTON ============ */}
+      <View style={[styles.bottomBar2, { paddingBottom: insets.bottom + 12 }]}>
+        <Pressable
+          style={({ pressed }) => [
+            styles.lionBtn,
+            pressed && styles.lionBtnPressed,
+          ]}
+          onPress={triggerLion}
+          testID="lion-flash-btn"
+        >
+          <Ionicons name="paw" size={18} color="#fff" />
+          <Text style={styles.lionBtnTxt}>Munculkan Singa</Text>
+        </Pressable>
       </View>
 
       {/* ============ EDIT SHEET ============ */}
@@ -391,6 +447,44 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     gap: 3,
+  },
+  guestCellWrap: {
+    flex: 1,
+    position: "relative",
+  },
+  lionOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(0,0,0,0.35)",
+    borderRadius: 4,
+  },
+  lionImg: {
+    width: "92%",
+    height: "92%",
+  },
+  bottomBar2: {
+    paddingHorizontal: 16,
+    paddingTop: 10,
+    backgroundColor: colors.surface,
+  },
+  lionBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    backgroundColor: colors.brandPrimary,
+    borderRadius: 999,
+    paddingVertical: 14,
+    minHeight: 48,
+  },
+  lionBtnPressed: {
+    opacity: 0.85,
+  },
+  lionBtnTxt: {
+    color: colors.onBrandPrimary,
+    fontSize: 15,
+    fontWeight: "700",
   },
   /* ---------- Feed ---------- */
   feedBlock: {
