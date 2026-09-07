@@ -177,7 +177,7 @@ export default function LiveRoomScreen() {
                     style={[styles.chipTxt, active && styles.chipTxtActive]}
                     numberOfLines={1}
                   >
-                    {g.name?.trim() || `Kotak ${i + 1}`}
+                    {`No ${i + 1}`}
                   </Text>
                 </Pressable>
               );
