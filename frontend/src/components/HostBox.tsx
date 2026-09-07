@@ -58,7 +58,13 @@ export function HostBox({ host, onPress }: Props) {
 
       {/* Name bottom */}
       <View style={styles.nameRow}>
-        <View style={styles.nameDot} />
+        <View style={styles.nameAvatar}>
+          <Image
+            source={require("../../assets/images/lion.png")}
+            style={StyleSheet.absoluteFill}
+            contentFit="cover"
+          />
+        </View>
         <Text style={styles.nameTxt} numberOfLines={1}>
           {host.name}
         </Text>
@@ -153,12 +159,19 @@ const styles = StyleSheet.create({
     bottom: 6,
     flexDirection: "row",
     alignItems: "center",
-    gap: 4,
+    gap: 5,
     backgroundColor: "rgba(0,0,0,0.4)",
     paddingHorizontal: 6,
     paddingVertical: 3,
-    borderRadius: 10,
+    borderRadius: 12,
     maxWidth: "80%",
+  },
+  nameAvatar: {
+    width: 16,
+    height: 16,
+    borderRadius: 8,
+    overflow: "hidden",
+    backgroundColor: "rgba(255,255,255,0.15)",
   },
   nameDot: {
     width: 6,
