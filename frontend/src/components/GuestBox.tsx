@@ -47,10 +47,12 @@ export function GuestBox({ guest, onPress }: Props) {
       {guest.bgPhotoUri && (
         <>
           <Image
-            source={{ uri: guest.bgPhotoUri }}
+            source={guest.bgPhotoUri}
             style={StyleSheet.absoluteFill}
             contentFit="cover"
             blurRadius={2.5}
+            transition={0}
+            cachePolicy="memory-disk"
           />
           <View style={styles.dimOverlay} />
         </>
@@ -60,9 +62,11 @@ export function GuestBox({ guest, onPress }: Props) {
       <View style={styles.avatarCircle}>
         {guest.photoUri ? (
           <Image
-            source={{ uri: guest.photoUri }}
+            source={guest.photoUri}
             style={StyleSheet.absoluteFill}
             contentFit="cover"
+            transition={0}
+            cachePolicy="memory-disk"
           />
         ) : (
           <Text style={styles.avatarInitial}>{initial}</Text>

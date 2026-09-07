@@ -129,6 +129,7 @@ export default function LiveRoomScreen() {
                                 source={require("../assets/images/lion.png")}
                                 style={styles.lionImg}
                                 contentFit="contain"
+                                transition={0}
                               />
                             </View>
                           ) : null}

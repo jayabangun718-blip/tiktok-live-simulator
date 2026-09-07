@@ -21,7 +21,7 @@ export function HostBox({ host, onPress }: Props) {
       android_ripple={{ color: "rgba(255,255,255,0.08)" }}
     >
       {host.photoUri ? (
-        <Image source={{ uri: host.photoUri }} style={StyleSheet.absoluteFill} contentFit="cover" />
+        <Image source={host.photoUri} style={StyleSheet.absoluteFill} contentFit="cover" transition={0} cachePolicy="memory-disk" />
       ) : (
         <LinearGradient
           colors={[colors.hostOrangeLight, colors.hostOrange, "#B85C2A"]}
@@ -63,6 +63,7 @@ export function HostBox({ host, onPress }: Props) {
             source={require("../../assets/images/lion.png")}
             style={StyleSheet.absoluteFill}
             contentFit="cover"
+            transition={0}
           />
         </View>
         <Text style={styles.nameTxt} numberOfLines={1}>
