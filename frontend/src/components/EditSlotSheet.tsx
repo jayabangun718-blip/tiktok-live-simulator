@@ -55,9 +55,20 @@ async function pickPhoto(
       mediaTypes: ["images"],
       allowsEditing: true,
       aspect: square ? [1, 1] : [4, 5],
-      quality: 0.85,
+      quality: 0.6,
+      base64: true,
     });
-    if (!res.canceled && res.assets?.[0]?.uri) setUri(res.assets[0].uri);
+    if (res.canceled || !res.assets?.[0]) return;
+    const asset = res.assets[0];
+    // Store the image as a self-contained base64 data URI so it persists
+    // fully offline (survives app restarts on APK and page reloads on web).
+    if (asset.base64) {
+      const mime = asset.mimeType ?? "image/jpeg";
+      setUri(`data:${mime};base64,${asset.base64}`);
+    } else if (asset.uri) {
+      // Fallback (some web builds already return a data/blob URI here).
+      setUri(asset.uri);
+    }
   } finally {
     setBusy(false);
   }
