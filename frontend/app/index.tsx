@@ -109,42 +109,30 @@ export default function LiveRoomScreen() {
                   const idx = row * 2 + col;
                   if (idx < state.guests.length) {
                     const g = state.guests[idx];
-                    if (idx === lionTargetIdx) {
-                      return (
-                        <View key={g.id} style={styles.guestCellWrap}>
-                          <GuestBox
-                            index={idx}
-                            guest={g}
-                            onPress={() =>
-                              setEditing({ type: "guest", id: g.id })
-                            }
-                          />
-                          {showLion ? (
-                            <View
-                              style={styles.lionOverlay}
-                              pointerEvents="none"
-                              testID="lion-flash-overlay"
-                            >
-                              <Image
-                                source={require("../assets/images/lion.png")}
-                                style={styles.lionImg}
-                                contentFit="contain"
-                                transition={0}
-                              />
-                            </View>
-                          ) : null}
-                        </View>
-                      );
-                    }
                     return (
-                      <GuestBox
-                        key={g.id}
-                        index={idx}
-                        guest={g}
-                        onPress={() =>
-                          setEditing({ type: "guest", id: g.id })
-                        }
-                      />
+                      <View key={g.id} style={styles.guestCellWrap}>
+                        <GuestBox
+                          index={idx}
+                          guest={g}
+                          onPress={() =>
+                            setEditing({ type: "guest", id: g.id })
+                          }
+                        />
+                        {showLion && idx === lionTargetIdx ? (
+                          <View
+                            style={styles.lionOverlay}
+                            pointerEvents="none"
+                            testID="lion-flash-overlay"
+                          >
+                            <Image
+                              source={require("../assets/images/lion.png")}
+                              style={styles.lionImg}
+                              contentFit="contain"
+                              transition={0}
+                            />
+                          </View>
+                        ) : null}
+                      </View>
                     );
                   }
                   return <AddRequestBox key={`add-${idx}`} />;
