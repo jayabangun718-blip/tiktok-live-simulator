@@ -90,7 +90,7 @@ export function GuestBox({ guest, onPress }: Props) {
       </View>
       {guest.muted && (
         <View style={styles.muteBadge}>
-          <Ionicons name="volume-mute" size={s(11)} color="rgba(255,255,255,0.85)" />
+          <Ionicons name="mic-off" size={s(11)} color="rgba(255,255,255,0.85)" />
         </View>
       )}
     </Pressable>
