@@ -15,11 +15,6 @@ type Props = {
   index: number;
 };
 
-function formatViewers(n: number): string {
-  if (n >= 1000) return `${(n / 1000).toFixed(1)}k`;
-  return String(n);
-}
-
 export function GuestBox({ guest, onPress }: Props) {
   const initial = (guest.name?.trim()?.[0] ?? "?").toUpperCase();
   const hasAnyPhoto = !!guest.photoUri || !!guest.bgPhotoUri;
@@ -87,9 +82,9 @@ export function GuestBox({ guest, onPress }: Props) {
           <MDIcon name="star-david" size={s(6)} color="#FFFFFF" />
         </LinearGradient>
         <RollingNumber
-          text={formatViewers(guest.viewers)}
+          text={String(guest.viewers)}
           textStyle={styles.viewerTxt}
-          digitHeight={Math.round(s(11) * 1.2)}
+          height={Math.round(s(11) * 1.3)}
         />
       </View>
 
