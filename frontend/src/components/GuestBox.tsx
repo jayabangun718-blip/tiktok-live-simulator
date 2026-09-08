@@ -4,6 +4,7 @@ import { Image } from "expo-image";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import { colors } from "@/src/theme";
+import { s } from "@/src/utils/scale";
 import type { GuestSlot } from "@/src/store/slotsStore";
 
 type Props = {
@@ -30,7 +31,7 @@ export function GuestBox({ guest, onPress }: Props) {
         testID={`guest-box-${guest.id}`}
         android_ripple={{ color: "rgba(255,255,255,0.06)" }}
       >
-        <Ionicons name="add" size={26} color="rgba(255,255,255,0.6)" />
+        <Ionicons name="add" size={s(26)} color="rgba(255,255,255,0.6)" />
         <Text style={styles.emptyTxt}>Permintaan</Text>
       </Pressable>
     );
@@ -76,7 +77,7 @@ export function GuestBox({ guest, onPress }: Props) {
       {/* Viewer count top-left */}
       <View style={styles.viewerRow}>
         <View style={styles.viewerIcon}>
-          <MDIcon name="star-david" size={10} color="#FFFFFF" />
+          <MDIcon name="star-david" size={s(10)} color="#FFFFFF" />
         </View>
         <Text style={styles.viewerTxt}>{formatViewers(guest.viewers)}</Text>
       </View>
@@ -87,7 +88,7 @@ export function GuestBox({ guest, onPress }: Props) {
           {guest.name}
         </Text>
         {guest.muted && (
-          <Ionicons name="volume-mute" size={11} color="rgba(255,255,255,0.7)" />
+          <Ionicons name="volume-mute" size={s(11)} color="rgba(255,255,255,0.7)" />
         )}
       </View>
     </Pressable>
@@ -101,7 +102,7 @@ export function AddRequestBox({ onPress }: { onPress?: () => void }) {
       onPress={onPress}
       testID="add-request-box"
     >
-      <Ionicons name="add" size={26} color="rgba(255,255,255,0.6)" />
+      <Ionicons name="add" size={s(26)} color="rgba(255,255,255,0.6)" />
       <Text style={styles.emptyTxt}>Permintaan</Text>
     </Pressable>
   );
@@ -110,7 +111,7 @@ export function AddRequestBox({ onPress }: { onPress?: () => void }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    borderRadius: 4,
+    borderRadius: s(4),
     overflow: "hidden",
     backgroundColor: "#1A1A20",
     position: "relative",
@@ -118,11 +119,11 @@ const styles = StyleSheet.create({
   emptyContainer: {
     alignItems: "center",
     justifyContent: "center",
-    gap: 2,
+    gap: s(2),
   },
   emptyTxt: {
     color: "rgba(255,255,255,0.7)",
-    fontSize: 11,
+    fontSize: s(11),
     fontWeight: "600",
   },
   dimOverlay: {
@@ -133,11 +134,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: "50%",
     left: "50%",
-    marginLeft: -22,
-    marginTop: -22,
-    width: 44,
-    height: 44,
-    borderRadius: 22,
+    marginLeft: s(-22),
+    marginTop: s(-22),
+    width: s(44),
+    height: s(44),
+    borderRadius: s(22),
     backgroundColor: "rgba(255,255,255,0.12)",
     borderWidth: 1.5,
     borderColor: "rgba(255,255,255,0.25)",
@@ -147,25 +148,25 @@ const styles = StyleSheet.create({
   },
   avatarInitial: {
     color: "#fff",
-    fontSize: 20,
+    fontSize: s(20),
     fontWeight: "700",
   },
   viewerRow: {
     position: "absolute",
-    top: 5,
-    left: 5,
+    top: s(5),
+    left: s(5),
     flexDirection: "row",
     alignItems: "center",
-    gap: 4,
+    gap: s(4),
     backgroundColor: "rgba(0,0,0,0.55)",
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 12,
+    paddingHorizontal: s(6),
+    paddingVertical: s(2),
+    borderRadius: s(12),
   },
   viewerIcon: {
-    width: 18,
-    height: 18,
-    borderRadius: 9,
+    width: s(18),
+    height: s(18),
+    borderRadius: s(9),
     backgroundColor: colors.accentCyan,
     borderWidth: 2,
     borderColor: "#FFFFFF",
@@ -173,33 +174,33 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   viewerDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
+    width: s(8),
+    height: s(8),
+    borderRadius: s(4),
     backgroundColor: colors.accentCyan,
   },
   viewerTxt: {
     color: "#fff",
-    fontSize: 13,
+    fontSize: s(13),
     fontWeight: "800",
   },
   bottomRow: {
     position: "absolute",
-    left: 4,
-    right: 4,
-    bottom: 4,
+    left: s(4),
+    right: s(4),
+    bottom: s(4),
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    gap: 4,
+    gap: s(4),
     backgroundColor: "rgba(0,0,0,0.55)",
-    paddingHorizontal: 6,
-    paddingVertical: 3,
-    borderRadius: 10,
+    paddingHorizontal: s(6),
+    paddingVertical: s(3),
+    borderRadius: s(10),
   },
   nameTxt: {
     color: "#fff",
-    fontSize: 11,
+    fontSize: s(11),
     fontWeight: "700",
     flexShrink: 1,
   },

@@ -4,6 +4,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import { colors } from "@/src/theme";
+import { s } from "@/src/utils/scale";
 import type { HostSlot } from "@/src/store/slotsStore";
 
 type Props = {
@@ -37,7 +38,7 @@ export function HostBox({ host, onPress }: Props) {
 
       {/* Host tag */}
       <View style={styles.hostTag} testID="host-tag">
-        <Ionicons name="person" size={10} color="#fff" />
+        <Ionicons name="person" size={s(10)} color="#fff" />
         <Text style={styles.hostTagTxt}>Host</Text>
       </View>
 
@@ -53,7 +54,7 @@ export function HostBox({ host, onPress }: Props) {
 
       {/* Cursor overlay decoration */}
       <View style={styles.cursor}>
-        <Ionicons name="navigate" size={22} color="#fff" style={{ transform: [{ rotate: "-90deg" }] }} />
+        <Ionicons name="navigate" size={s(22)} color="#fff" style={{ transform: [{ rotate: "-90deg" }] }} />
       </View>
 
       {/* Name bottom */}
@@ -77,7 +78,7 @@ export function HostBox({ host, onPress }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    borderRadius: 6,
+    borderRadius: s(6),
     overflow: "hidden",
     backgroundColor: colors.hostOrange,
     position: "relative",
@@ -86,11 +87,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: "40%",
     left: "50%",
-    width: 96,
-    height: 96,
-    borderRadius: 48,
-    marginLeft: -48,
-    marginTop: -48,
+    width: s(96),
+    height: s(96),
+    borderRadius: s(48),
+    marginLeft: s(-48),
+    marginTop: s(-48),
     backgroundColor: "rgba(255,255,255,0.18)",
     alignItems: "center",
     justifyContent: "center",
@@ -99,91 +100,91 @@ const styles = StyleSheet.create({
   },
   placeholderInitial: {
     color: "#fff",
-    fontSize: 48,
+    fontSize: s(48),
     fontWeight: "800",
   },
   hostTag: {
     position: "absolute",
-    top: 6,
-    left: 6,
+    top: s(6),
+    left: s(6),
     flexDirection: "row",
     alignItems: "center",
-    gap: 3,
+    gap: s(3),
     backgroundColor: "rgba(0,0,0,0.55)",
-    paddingHorizontal: 7,
-    paddingVertical: 3,
-    borderRadius: 10,
+    paddingHorizontal: s(7),
+    paddingVertical: s(3),
+    borderRadius: s(10),
   },
   hostTagTxt: {
     color: "#fff",
-    fontSize: 10,
+    fontSize: s(10),
     fontWeight: "700",
   },
   bubble: {
     position: "absolute",
-    top: 44,
-    left: 40,
+    top: s(44),
+    left: s(40),
     backgroundColor: colors.accentCyan,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 6,
+    paddingHorizontal: s(10),
+    paddingVertical: s(5),
+    borderRadius: s(6),
     maxWidth: "72%",
   },
   bubbleTxt: {
     color: "#0A2530",
-    fontSize: 12,
+    fontSize: s(12),
     fontWeight: "700",
   },
   bubbleTail: {
     position: "absolute",
-    left: -6,
-    top: 8,
+    left: s(-6),
+    top: s(8),
     width: 0,
     height: 0,
-    borderTopWidth: 6,
-    borderBottomWidth: 6,
-    borderRightWidth: 8,
+    borderTopWidth: s(6),
+    borderBottomWidth: s(6),
+    borderRightWidth: s(8),
     borderTopColor: "transparent",
     borderBottomColor: "transparent",
     borderRightColor: colors.accentCyan,
   },
   cursor: {
     position: "absolute",
-    top: 40,
-    left: 20,
+    top: s(40),
+    left: s(20),
     transform: [{ rotate: "-20deg" }],
     opacity: 0.95,
   },
   nameRow: {
     position: "absolute",
-    left: 6,
-    bottom: 6,
+    left: s(6),
+    bottom: s(6),
     flexDirection: "row",
     alignItems: "center",
-    gap: 5,
+    gap: s(5),
     backgroundColor: "rgba(0,0,0,0.4)",
-    paddingHorizontal: 6,
-    paddingVertical: 3,
-    borderRadius: 12,
+    paddingHorizontal: s(6),
+    paddingVertical: s(3),
+    borderRadius: s(12),
     maxWidth: "80%",
   },
   nameAvatar: {
-    width: 16,
-    height: 16,
-    borderRadius: 8,
+    width: s(16),
+    height: s(16),
+    borderRadius: s(8),
     overflow: "hidden",
     backgroundColor: "rgba(255,255,255,0.15)",
   },
   nameDot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
+    width: s(6),
+    height: s(6),
+    borderRadius: s(3),
     backgroundColor: colors.accentGreen,
   },
   nameTxt: {
     color: "#fff",
-    fontSize: 11,
+    fontSize: s(11),
     fontWeight: "600",
-    maxWidth: 110,
+    maxWidth: s(110),
   },
 });

@@ -19,6 +19,7 @@ import { AddRequestBox, GuestBox } from "@/src/components/GuestBox";
 import { HostBox } from "@/src/components/HostBox";
 import { useSlotsStore } from "@/src/store/slotsStore";
 import { storage } from "@/src/utils/storage";
+import { s } from "@/src/utils/scale";
 import { colors } from "@/src/theme";
 
 type EditTarget =
@@ -181,7 +182,7 @@ export default function LiveRoomScreen() {
           onPress={triggerLion}
           testID="lion-flash-btn"
         >
-          <Ionicons name="paw" size={18} color="#fff" />
+          <Ionicons name="paw" size={s(18)} color="#fff" />
           <Text style={styles.lionBtnTxt}>Munculkan Singa</Text>
         </Pressable>
       </View>
@@ -231,22 +232,22 @@ const styles = StyleSheet.create({
   /* ---------- Grid ---------- */
   gridWrap: {
     flex: 1,
-    paddingHorizontal: 6,
-    paddingTop: 12,
+    paddingHorizontal: s(6),
+    paddingTop: s(12),
   },
   grid: {
     aspectRatio: 1,
     flexDirection: "row",
-    gap: 3,
+    gap: s(3),
   },
   guestsCol: {
     flex: 1,
-    gap: 3,
+    gap: s(3),
   },
   guestRow: {
     flex: 1,
     flexDirection: "row",
-    gap: 3,
+    gap: s(3),
   },
   guestCellWrap: {
     flex: 1,
