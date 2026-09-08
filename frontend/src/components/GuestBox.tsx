@@ -2,11 +2,11 @@ import Ionicons from "@react-native-vector-icons/ionicons";
 import MDIcon from "@react-native-vector-icons/material-design-icons";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
-import { useEffect, useRef, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import { colors } from "@/src/theme";
 import { s } from "@/src/utils/scale";
+import { RollingNumber } from "@/src/components/RollingNumber";
 import type { GuestSlot } from "@/src/store/slotsStore";
 
 type Props = {
@@ -18,50 +18,6 @@ type Props = {
 function formatViewers(n: number): string {
   if (n >= 1000) return `${(n / 1000).toFixed(1)}k`;
   return String(n);
-}
-
-// Smoothly counts up/down from the previous value to the new value whenever
-// `value` changes (easeOutCubic roll-up, like the reference video).
-function AnimatedViewers({ value }: { value: number }) {
-  const [display, setDisplay] = useState(value);
-  const displayRef = useRef(value);
-  const rafRef = useRef<number | null>(null);
-
-  useEffect(() => {
-    const from = displayRef.current;
-    const to = value;
-    if (from === to) {
-      setDisplay(to);
-      return;
-    }
-    const duration = 800;
-    const start = Date.now();
-
-    const tick = () => {
-      const elapsed = Date.now() - start;
-      const t = Math.min(1, elapsed / duration);
-      const eased = 1 - Math.pow(1 - t, 3); // easeOutCubic
-      const current = Math.round(from + (to - from) * eased);
-      displayRef.current = current;
-      setDisplay(current);
-      if (t < 1) {
-        rafRef.current = requestAnimationFrame(tick);
-      } else {
-        displayRef.current = to;
-      }
-    };
-
-    rafRef.current = requestAnimationFrame(tick);
-    return () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
-  }, [value]);
-
-  return (
-    <Text style={styles.viewerTxt} testID="viewer-count">
-      {formatViewers(display)}
-    </Text>
-  );
 }
 
 export function GuestBox({ guest, onPress }: Props) {
@@ -130,7 +86,11 @@ export function GuestBox({ guest, onPress }: Props) {
         >
           <MDIcon name="star-david" size={s(6)} color="#FFFFFF" />
         </LinearGradient>
-        <AnimatedViewers value={guest.viewers} />
+        <RollingNumber
+          text={formatViewers(guest.viewers)}
+          textStyle={styles.viewerTxt}
+          digitHeight={Math.round(s(11) * 1.2)}
+        />
       </View>
 
       {/* Bottom: name pill (left) + mute icon back at its original corner */}
