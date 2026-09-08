@@ -77,7 +77,7 @@ export function GuestBox({ guest, onPress }: Props) {
       {/* Viewer count top-left */}
       <View style={styles.viewerRow}>
         <View style={styles.viewerIcon}>
-          <MDIcon name="star-david" size={s(8)} color="#FFFFFF" />
+          <MDIcon name="star-david" size={s(6)} color="#FFFFFF" />
         </View>
         <Text style={styles.viewerTxt}>{formatViewers(guest.viewers)}</Text>
       </View>
@@ -164,11 +164,11 @@ const styles = StyleSheet.create({
     borderRadius: s(12),
   },
   viewerIcon: {
-    width: s(13),
-    height: s(13),
-    borderRadius: s(6.5),
+    width: s(10),
+    height: s(10),
+    borderRadius: s(5),
     backgroundColor: colors.accentCyan,
-    borderWidth: 1.5,
+    borderWidth: 1,
     borderColor: "#FFFFFF",
     alignItems: "center",
     justifyContent: "center",
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
   },
   viewerTxt: {
     color: "#fff",
-    fontSize: s(9),
+    fontSize: s(7),
     fontWeight: "800",
   },
   bottomRow: {
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
   },
   nameTxt: {
     color: "#fff",
-    fontSize: s(9),
+    fontSize: s(7),
     fontWeight: "700",
     flexShrink: 1,
   },
