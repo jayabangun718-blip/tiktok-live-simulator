@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
   },
   viewerTxt: {
     color: "#fff",
-    fontSize: s(7),
+    fontSize: s(11),
     fontWeight: "800",
   },
   bottomRow: {
