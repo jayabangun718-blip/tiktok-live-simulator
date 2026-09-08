@@ -82,15 +82,17 @@ export function GuestBox({ guest, onPress }: Props) {
         <Text style={styles.viewerTxt}>{formatViewers(guest.viewers)}</Text>
       </View>
 
-      {/* Bottom bar: name + mute icon */}
+      {/* Bottom: name pill (left) + mute icon back at its original corner */}
       <View style={styles.bottomRow}>
         <Text style={styles.nameTxt} numberOfLines={1}>
           {guest.name}
         </Text>
-        {guest.muted && (
-          <Ionicons name="volume-mute" size={s(11)} color="rgba(255,255,255,0.7)" />
-        )}
       </View>
+      {guest.muted && (
+        <View style={styles.muteBadge}>
+          <Ionicons name="volume-mute" size={s(11)} color="rgba(255,255,255,0.85)" />
+        </View>
+      )}
     </Pressable>
   );
 }
@@ -203,5 +205,12 @@ const styles = StyleSheet.create({
     fontSize: s(7),
     fontWeight: "700",
     flexShrink: 1,
+  },
+  muteBadge: {
+    position: "absolute",
+    right: s(5),
+    bottom: s(5),
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
