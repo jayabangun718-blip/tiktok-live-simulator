@@ -1,6 +1,7 @@
 import Ionicons from "@react-native-vector-icons/ionicons";
 import MDIcon from "@react-native-vector-icons/material-design-icons";
 import { Image } from "expo-image";
+import { LinearGradient } from "expo-linear-gradient";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import { colors } from "@/src/theme";
@@ -76,9 +77,14 @@ export function GuestBox({ guest, onPress }: Props) {
 
       {/* Viewer count top-left */}
       <View style={styles.viewerRow}>
-        <View style={styles.viewerIcon}>
+        <LinearGradient
+          colors={["#3EE0F5", "#1E7BFF", "#0A5BF0"]}
+          start={{ x: 0.3, y: 0 }}
+          end={{ x: 0.7, y: 1 }}
+          style={styles.viewerIcon}
+        >
           <MDIcon name="star-david" size={s(6)} color="#FFFFFF" />
-        </View>
+        </LinearGradient>
         <Text style={styles.viewerTxt}>{formatViewers(guest.viewers)}</Text>
       </View>
 
@@ -166,14 +172,14 @@ const styles = StyleSheet.create({
     borderRadius: s(12),
   },
   viewerIcon: {
-    width: s(10),
-    height: s(10),
-    borderRadius: s(5),
-    backgroundColor: colors.accentCyan,
+    width: s(9),
+    height: s(9),
+    borderRadius: s(4.5),
     borderWidth: 1,
-    borderColor: "#FFFFFF",
+    borderColor: "rgba(255,255,255,0.9)",
     alignItems: "center",
     justifyContent: "center",
+    overflow: "hidden",
   },
   viewerDot: {
     width: s(8),
