@@ -89,12 +89,12 @@ export function GuestBox({ guest, onPress }: Props) {
           end={{ x: 0.7, y: 1 }}
           style={styles.viewerIcon}
         >
-          <MDIcon name="star-david" size={s(6)} color="#FFFFFF" />
+          <MDIcon name="star-david" size={s(5)} color="#FFFFFF" />
         </LinearGradient>
         <RollingNumber
           text={formatViewers(guest.viewers)}
           textStyle={styles.viewerTxt}
-          height={Math.round(s(11) * 1.3)}
+          height={Math.round(s(9) * 1.3)}
         />
       </View>
 
@@ -171,20 +171,20 @@ const styles = StyleSheet.create({
   },
   viewerRow: {
     position: "absolute",
-    top: s(5),
-    left: s(5),
+    top: s(3),
+    left: s(3),
     flexDirection: "row",
     alignItems: "center",
-    gap: s(3),
+    gap: s(2),
     backgroundColor: "rgba(0,0,0,0.55)",
-    paddingHorizontal: s(5),
-    paddingVertical: s(2),
-    borderRadius: s(12),
+    paddingHorizontal: s(4),
+    paddingVertical: s(1.5),
+    borderRadius: s(10),
   },
   viewerIcon: {
-    width: s(9),
-    height: s(9),
-    borderRadius: s(4.5),
+    width: s(8),
+    height: s(8),
+    borderRadius: s(4),
     borderWidth: 1,
     borderColor: "rgba(255,255,255,0.9)",
     alignItems: "center",
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
   },
   viewerTxt: {
     color: "#fff",
-    fontSize: s(11),
+    fontSize: s(9),
     fontWeight: "900",
   },
   bottomRow: {
