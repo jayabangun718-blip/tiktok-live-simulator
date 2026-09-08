@@ -27,6 +27,8 @@ type EditTarget =
   | { type: "guest"; id: string }
   | null;
 
+const LION_VALUE = 29999;
+
 export default function LiveRoomScreen() {
   const insets = useSafeAreaInsets();
   const { state, loaded, updateHost, updateGuest } = useSlotsStore();
@@ -53,6 +55,11 @@ export default function LiveRoomScreen() {
   const triggerLion = () => {
     if (lionTimer.current) clearTimeout(lionTimer.current);
     setShowLion(true);
+    // Add the lion value to the selected participant's viewer count.
+    const target = state.guests[lionTargetIdx];
+    if (target) {
+      updateGuest(target.id, { viewers: (target.viewers ?? 0) + LION_VALUE });
+    }
     lionTimer.current = setTimeout(() => setShowLion(false), 2000);
   };
 
