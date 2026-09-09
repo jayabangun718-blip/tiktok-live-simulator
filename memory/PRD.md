@@ -33,9 +33,17 @@ disinkronkan real-time antar device via Socket.IO.
 ## Status (2026-09-09)
 - Migrasi repo lama (Expo) ke environment ini: DONE (berjalan sebagai web di port 3000).
 - Penyesuaian UI singa/nama/ikon/penonton + animasi: DONE.
-- Kontrol multi-device real-time + PIN + server storage: DONE & terverifikasi
-  (backend curl semua endpoint OK, socket.io handshake OK, sync display<-control OK,
-   gestur rahasia OK, PIN gate OK).
+- Kontrol multi-device real-time + PIN + server storage: DONE & terverifikasi.
+- **LOCAL-FIRST (server-independent)**: DONE. `roomStore` kini singleton lokal:
+  - App SELALU terbuka instan dengan `DEFAULT_STATE` + cache AsyncStorage, TANPA menunggu/tergantung server.
+  - Semua aksi (edit, mute, singa, reset) diterapkan lokal dulu (instan), lalu dikirim ke server best-effort (fire-and-forget) — kalau server tidur/putus, app tetap jalan.
+  - Server/Socket.IO hanya overlay opsional untuk sinkron antar device saat online.
+  - PIN kontrol: server dulu, fallback lokal `1234` saat offline.
+- Keep-awake: hanya di native (APK/iOS) via `useKeepScreenAwake`; di web di-skip (Wake Lock API tidak stabil).
+
+## Catatan penting
+- Agar KONTROL dari device lain selalu bisa (real-time) tanpa server tidur, backend perlu **di-deploy** (always-on). Preview pod bisa tidur; deployment tidak.
+- Foto disimpan base64 di dalam state (sinkron ikut state). Cukup untuk skala kecil.
 
 ## Backlog / Next
 - P1: Ubah PIN dari dalam panel kontrol.
