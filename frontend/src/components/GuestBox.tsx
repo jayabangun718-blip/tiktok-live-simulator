@@ -5,6 +5,7 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import { colors } from "@/src/theme";
 import type { GuestSlot } from "@/src/store/slotsStore";
+import { RollingNumber } from "./RollingNumber";
 
 type Props = {
   guest: GuestSlot;
@@ -13,7 +14,11 @@ type Props = {
 };
 
 function formatViewers(n: number): string {
-  if (n >= 1000) return `${(n / 1000).toFixed(1)}k`;
+  if (n >= 1000) {
+    const v = n / 1000;
+    const s = v % 1 === 0 ? String(v) : v.toFixed(1);
+    return `${s}K`;
+  }
   return String(n);
 }
 
@@ -78,7 +83,7 @@ export function GuestBox({ guest, onPress }: Props) {
         <View style={styles.viewerIcon}>
           <MDIcon name="star-david" size={10} color="#FFFFFF" />
         </View>
-        <Text style={styles.viewerTxt}>{formatViewers(guest.viewers)}</Text>
+        <RollingNumber value={formatViewers(guest.viewers)} textStyle={styles.viewerTxt} />
       </View>
 
       {/* Bottom bar: name + plus */}

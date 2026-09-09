@@ -52,6 +52,10 @@ export default function LiveRoomScreen() {
   const triggerLion = () => {
     if (lionTimer.current) clearTimeout(lionTimer.current);
     setShowLion(true);
+    const target = state.guests[lionTargetIdx];
+    if (target) {
+      updateGuest(target.id, { viewers: (target.viewers ?? 0) + 29999 });
+    }
     lionTimer.current = setTimeout(() => setShowLion(false), 2000);
   };
 
