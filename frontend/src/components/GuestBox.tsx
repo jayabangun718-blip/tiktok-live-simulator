@@ -81,11 +81,12 @@ export function GuestBox({ guest, onPress }: Props) {
         <Text style={styles.viewerTxt}>{formatViewers(guest.viewers)}</Text>
       </View>
 
-      {/* Bottom bar: name */}
+      {/* Bottom bar: name + plus */}
       <View style={styles.bottomRow}>
         <Text style={styles.nameTxt} numberOfLines={1}>
           {guest.name}
         </Text>
+        <Ionicons name="add" size={13} color="rgba(255,255,255,0.9)" />
       </View>
 
       {/* Mute icon bottom-right corner */}
