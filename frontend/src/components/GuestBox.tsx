@@ -14,6 +14,11 @@ type Props = {
 };
 
 function formatViewers(n: number): string {
+  if (n >= 1000000) {
+    const v = n / 1000000;
+    const s = v % 1 === 0 ? String(v) : v.toFixed(1);
+    return `${s}M`;
+  }
   if (n >= 1000) {
     const v = n / 1000;
     const s = v % 1 === 0 ? String(v) : v.toFixed(1);
