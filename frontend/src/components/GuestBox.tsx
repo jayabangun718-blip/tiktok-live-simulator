@@ -86,7 +86,7 @@ export function GuestBox({ guest, onPress }: Props) {
         <Text style={styles.nameTxt} numberOfLines={1}>
           {guest.name}
         </Text>
-        <Ionicons name="add" size={13} color="rgba(255,255,255,0.9)" />
+        <MDIcon name="plus-thick" size={13} color="rgba(255,255,255,0.95)" />
       </View>
 
       {/* Mute icon bottom-right corner */}
