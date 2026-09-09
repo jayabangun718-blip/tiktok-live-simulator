@@ -3,6 +3,7 @@ import MDIcon from "@react-native-vector-icons/material-design-icons";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { StatusBar } from "expo-status-bar";
+import { useVideoPlayer, VideoView } from "expo-video";
 import { useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
