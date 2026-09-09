@@ -484,12 +484,12 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     alignItems: "flex-end",
     justifyContent: "flex-start",
-    paddingTop: 0,
-    paddingRight: 0,
+    paddingTop: 4,
+    paddingRight: 4,
   },
   lionImg: {
-    width: "52%",
-    height: "52%",
+    width: "32%",
+    height: "32%",
   },
   bottomBar2: {
     paddingHorizontal: 16,
