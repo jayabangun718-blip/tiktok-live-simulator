@@ -14,52 +14,55 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { EditSlotSheet, type EditPayload } from "@/src/components/EditSlotSheet";
 import { AddRequestBox, GuestBox } from "@/src/components/GuestBox";
 import { HostBox } from "@/src/components/HostBox";
-import { useSlotsStore } from "@/src/store/slotsStore";
-import { storage } from "@/src/utils/storage";
+import { useRoom } from "@/src/store/roomStore";
 import { colors } from "@/src/theme";
-
-type EditTarget =
-  | { type: "host" }
-  | { type: "guest"; id: string }
-  | null;
+import { router } from "expo-router";
 
 export default function LiveRoomScreen() {
   const insets = useSafeAreaInsets();
-  const { state, loaded, updateHost, updateGuest } = useSlotsStore();
-  const [editing, setEditing] = useState<EditTarget>(null);
+  const { state } = useRoom();
   const [showLion, setShowLion] = useState(false);
-  const [lionTargetIdx, setLionTargetIdx] = useState(0);
+  const [lionIdx, setLionIdx] = useState(0);
   const lionTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const prevSeq = useRef(0);
+  const tapCount = useRef(0);
+  const tapTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    (async () => {
-      const saved = await storage.getItem("@lion_target_idx", 0);
-      if (typeof saved === "number" && saved >= 0) setLionTargetIdx(saved);
-    })();
     return () => {
       if (lionTimer.current) clearTimeout(lionTimer.current);
+      if (tapTimer.current) clearTimeout(tapTimer.current);
     };
   }, []);
 
-  const selectLionTarget = (i: number) => {
-    setLionTargetIdx(i);
-    storage.setItem("@lion_target_idx", i);
-  };
-
-  const triggerLion = () => {
-    if (lionTimer.current) clearTimeout(lionTimer.current);
-    setShowLion(true);
-    const target = state.guests[lionTargetIdx];
-    if (target) {
-      updateGuest(target.id, { viewers: (target.viewers ?? 0) + 29999 });
+  useEffect(() => {
+    if (!state) return;
+    if (state.lionSeq > prevSeq.current) {
+      prevSeq.current = state.lionSeq;
+      setLionIdx(state.lionTargetIdx);
+      setShowLion(true);
+      if (lionTimer.current) clearTimeout(lionTimer.current);
+      lionTimer.current = setTimeout(() => setShowLion(false), 2000);
+    } else {
+      prevSeq.current = state.lionSeq;
     }
-    lionTimer.current = setTimeout(() => setShowLion(false), 2000);
+  }, [state]);
+
+  const handleSecretTap = () => {
+    tapCount.current += 1;
+    if (tapTimer.current) clearTimeout(tapTimer.current);
+    tapTimer.current = setTimeout(() => {
+      tapCount.current = 0;
+    }, 2500);
+    if (tapCount.current >= 5) {
+      tapCount.current = 0;
+      router.push("/control");
+    }
   };
 
-  if (!loaded) {
+  if (!state) {
     return (
       <View style={styles.loadingRoot}>
         <StatusBar style="light" />
@@ -67,30 +70,6 @@ export default function LiveRoomScreen() {
       </View>
     );
   }
-
-  const editingHost = editing?.type === "host";
-  const editingGuest =
-    editing?.type === "guest"
-      ? state.guests.find((g) => g.id === editing.id) ?? null
-      : null;
-
-  const handleSave = (payload: EditPayload) => {
-    if (!editing) return;
-    if (editing.type === "host") {
-      updateHost({
-        name: payload.name,
-        photoUri: payload.photoUri,
-        message: payload.message ?? state.host.message,
-      });
-    } else {
-      updateGuest(editing.id, {
-        name: payload.name,
-        photoUri: payload.photoUri,
-        bgPhotoUri: payload.bgPhotoUri ?? null,
-        viewers: payload.viewers ?? 0,
-      });
-    }
-  };
 
   return (
     <View style={[styles.root, { paddingTop: insets.top }]}>
@@ -100,10 +79,7 @@ export default function LiveRoomScreen() {
       <View style={styles.gridWrap}>
         <View style={styles.grid}>
           {/* Left: Host */}
-          <HostBox
-            host={state.host}
-            onPress={() => setEditing({ type: "host" })}
-          />
+          <HostBox host={state.host} onPress={() => {}} />
 
           {/* Right: 4 rows x 2 columns */}
           <View style={styles.guestsCol}>
@@ -115,14 +91,8 @@ export default function LiveRoomScreen() {
                     const g = state.guests[idx];
                     return (
                       <View key={g.id} style={styles.guestCellWrap}>
-                        <GuestBox
-                          index={idx}
-                          guest={g}
-                          onPress={() =>
-                            setEditing({ type: "guest", id: g.id })
-                          }
-                        />
-                        {showLion && idx === lionTargetIdx ? (
+                        <GuestBox index={idx} guest={g} onPress={() => {}} />
+                        {showLion && idx === lionIdx ? (
                           <View
                             style={styles.lionOverlay}
                             pointerEvents="none"
@@ -147,75 +117,11 @@ export default function LiveRoomScreen() {
         </View>
       </View>
 
-      {/* ============ BOTTOM: SETTINGS + BUTTON ============ */}
-      <View style={[styles.bottomBar2, { paddingBottom: insets.bottom + 12 }]}>
-        <View style={styles.settingsRow}>
-          <Text style={styles.settingsLabel}>Kotak singa:</Text>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            style={styles.chipsScroll}
-            contentContainerStyle={styles.chipsRow2}
-          >
-            {state.guests.map((g, i) => {
-              const active = i === lionTargetIdx;
-              return (
-                <Pressable
-                  key={g.id}
-                  onPress={() => selectLionTarget(i)}
-                  style={[styles.chip, active && styles.chipActive]}
-                  testID={`lion-target-${i}`}
-                >
-                  <Text
-                    style={[styles.chipTxt, active && styles.chipTxtActive]}
-                    numberOfLines={1}
-                  >
-                    {`No ${i + 1}`}
-                  </Text>
-                </Pressable>
-              );
-            })}
-          </ScrollView>
-        </View>
-        <Pressable
-          style={({ pressed }) => [
-            styles.lionBtn,
-            pressed && styles.lionBtnPressed,
-          ]}
-          onPress={triggerLion}
-          testID="lion-flash-btn"
-        >
-          <Ionicons name="paw" size={18} color="#fff" />
-          <Text style={styles.lionBtnTxt}>Munculkan Singa</Text>
-        </Pressable>
-      </View>
-
-      {/* ============ EDIT SHEET ============ */}
-      <EditSlotSheet
-        visible={editingHost}
-        onClose={() => setEditing(null)}
-        onSave={handleSave}
-        title="Ubah Host"
-        showMessage
-        initial={{
-          name: state.host.name,
-          photoUri: state.host.photoUri,
-          message: state.host.message,
-        }}
-      />
-      <EditSlotSheet
-        visible={!!editingGuest}
-        onClose={() => setEditing(null)}
-        onSave={handleSave}
-        title="Ubah Peserta"
-        showViewers
-        showBgPhoto
-        initial={{
-          name: editingGuest?.name ?? "",
-          photoUri: editingGuest?.photoUri ?? null,
-          bgPhotoUri: editingGuest?.bgPhotoUri ?? null,
-          viewers: editingGuest?.viewers ?? 0,
-        }}
+      {/* Hidden gesture area (tap 5x, top-right) to open the control panel */}
+      <Pressable
+        style={styles.secretZone}
+        onPress={handleSecretTap}
+        testID="secret-control-zone"
       />
     </View>
   );
@@ -286,6 +192,13 @@ const styles = StyleSheet.create({
   root: {
     flex: 1,
     backgroundColor: colors.surface,
+  },
+  secretZone: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    width: 70,
+    height: 70,
   },
   /* ---------- Header ---------- */
   headerBlock: {
