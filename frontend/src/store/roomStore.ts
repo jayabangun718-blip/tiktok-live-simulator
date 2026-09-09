@@ -1,6 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { io, type Socket } from "socket.io-client";
 
+import { storage } from "@/src/utils/storage";
+
+const CACHE_KEY = "@room_state_cache_v1";
+
 const BACKEND =
   (process.env.EXPO_PUBLIC_BACKEND_URL as string) ||
   (typeof window !== "undefined" ? window.location.origin : "");
@@ -44,19 +48,41 @@ export function useRoom() {
   const socketRef = useRef<Socket | null>(null);
 
   useEffect(() => {
+    // 1) Show cached state instantly (works even fully offline).
+    storage.getItem(CACHE_KEY, "").then((raw) => {
+      if (raw) {
+        try {
+          setState((cur) => cur ?? (JSON.parse(raw as string) as RoomState));
+        } catch {}
+      }
+    });
+
+    // 2) Try to fetch latest from server (ignored if offline).
     fetch(`${API}/room`)
       .then((r) => r.json())
-      .then((d) => setState(d))
+      .then((d) => {
+        setState(d);
+        storage.setItem(CACHE_KEY, JSON.stringify(d));
+      })
       .catch(() => {});
 
+    // 3) Live updates + auto-reconnect when the network comes back.
     const socket = io(BACKEND, {
       path: "/api/socket.io",
       transports: ["websocket", "polling"],
+      reconnection: true,
+      reconnectionAttempts: Infinity,
+      reconnectionDelay: 1000,
+      reconnectionDelayMax: 5000,
+      timeout: 20000,
     });
     socketRef.current = socket;
     socket.on("connect", () => setConnected(true));
     socket.on("disconnect", () => setConnected(false));
-    socket.on("room_state", (data: RoomState) => setState(data));
+    socket.on("room_state", (data: RoomState) => {
+      setState(data);
+      storage.setItem(CACHE_KEY, JSON.stringify(data));
+    });
 
     return () => {
       socket.disconnect();

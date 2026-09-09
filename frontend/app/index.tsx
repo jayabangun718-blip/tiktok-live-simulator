@@ -13,6 +13,7 @@ import {
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useKeepAwake } from "expo-keep-awake";
 
 import { AddRequestBox, GuestBox } from "@/src/components/GuestBox";
 import { HostBox } from "@/src/components/HostBox";
@@ -21,6 +22,7 @@ import { colors } from "@/src/theme";
 import { router } from "expo-router";
 
 export default function LiveRoomScreen() {
+  useKeepAwake();
   const insets = useSafeAreaInsets();
   const { state } = useRoom();
   const [showLion, setShowLion] = useState(false);

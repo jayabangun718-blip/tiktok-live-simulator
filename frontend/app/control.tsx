@@ -12,6 +12,7 @@ import {
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useKeepAwake } from "expo-keep-awake";
 
 import { EditSlotSheet, type EditPayload } from "@/src/components/EditSlotSheet";
 import { useRoom } from "@/src/store/roomStore";
@@ -23,6 +24,7 @@ const AUTH_KEY = "@control_authed_v1";
 type EditTarget = { type: "host" } | { type: "guest"; id: string } | null;
 
 export default function ControlPanel() {
+  useKeepAwake();
   const insets = useSafeAreaInsets();
   const { state, connected, patchGuest, patchHost, triggerLion, resetRoom, authControl } =
     useRoom();
