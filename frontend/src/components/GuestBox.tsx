@@ -81,14 +81,14 @@ export function GuestBox({ guest, onPress }: Props) {
         <Text style={styles.viewerTxt}>{formatViewers(guest.viewers)}</Text>
       </View>
 
-      {/* Bottom bar: name + mute icon */}
+      {/* Bottom bar: mute icon (start) + name */}
       <View style={styles.bottomRow}>
+        {guest.muted && (
+          <Ionicons name="mic-off" size={11} color="rgba(255,255,255,0.85)" />
+        )}
         <Text style={styles.nameTxt} numberOfLines={1}>
           {guest.name}
         </Text>
-        {guest.muted && (
-          <Ionicons name="volume-mute" size={11} color="rgba(255,255,255,0.7)" />
-        )}
       </View>
     </Pressable>
   );
